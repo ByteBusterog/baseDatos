@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Modificar - Base de Datos</title>
+
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#fffbfe">
+  <script src="ungap/custom-elements.js"></script>
+
+  <script type="module" src="js/configura.js"></script>
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/transicion_pestanas.css">
+  <script type="module" src="lib/js/consumeJson.js"></script>
+  <script type="module" src="lib/js/submitForm.js"></script>
+  <script type="module" src="lib/js/muestraObjeto.js"></script>
+  <script type="module" src="lib/js/muestraError.js"></script>
+
+  <script>
+    // Obtiene los parámetros de la página.
+    const params = new URL(location.href).searchParams
+  </script>
+
+</head>
+
+<body style="padding-bottom: 5rem;" onload="if (params.size > 0) {
+   consumeJson('srv/estudiante.php?' + params)
+    .then(respuesta => muestraObjeto(forma, respuesta.body))
+    .catch(muestraError)
+  }">
+  <md-top-app-bar headline="headline"></md-top-app-bar>
+  <form id="forma" onsubmit="submitForm('srv/estudiante-modifica.php', event)
+    .then(respuesta => location.href = 'index.html')
+    .catch(muestraError)">
+
+    </md-top-app-bar>
+
+    <h1 id="headline">Modificar</h1>
+
+    <main>
+      <p><a href="index.html">Cancelar</a></p>
+
+      <input name="id" type="hidden">
+
+      <label class="md-filled-text-field">
+        <input id="nombre" name="nombre" required placeholder="Nombre*" value="Cargando&hellip;">
+        <span>Nombre *</span>
+        <small>Obligatorio</small>
+      </label>
+
+      <label class="md-filled-text-field">
+        <input id="cuatrimestre" name="cuatrimestre" required placeholder="Cuatrimestre*" value="Cargando&hellip;">
+        <span>Cuatrimestre *</span>
+        <small>Obligatorio</small>
+      </label>
+
+      <label class="md-filled-text-field">
+        <input id="carrera" name="carrera" required placeholder="Carrera*" value="Cargando&hellip;">
+        <span>Carrera *</span>
+        <small>Obligatorio</small>
+      </label>
+      <p>
+
+        <button class="md-filled-button" type="submit">
+          Guardar
+         </button>
+      
+
+        <button class="md-outline-button" type="button" onclick="
+     if (params.size > 0 && confirm('Confirma la eliminación')) {
+      consumeJson('srv/estudiante-elimina.php?' + params)
+       .then(() => location.href = 'index.html')
+       .catch(muestraError)
+     }">
+          Eliminar
+        </button>
+
+      </p>
+    </main>
+  </form>
+
+  <nav-bar></nav-bar>
+</body>
+
+</html>
