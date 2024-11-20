@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Inicio - Base de datos</title>
+  <meta name="theme-color" content="#fffbfe">
+  <link rel="icon" sizes="32x32" href="favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
+  <script src="ungap/custom-elements.js"></script>
+
+  <!-- Material Design Lite -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
+
+  <script type="module" src="js/configura.js"></script>
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/transicion_pestanas.css">
+  <link rel="expect" blocking="render" href="#navbar">
+  <script type="module" src="lib/js/consumeJson.js"></script>
+  <script type="module" src="lib/js/muestraObjeto.js"></script>
+  <script type="module" src="lib/js/muestraError.js"></script>
+
+</head>
+
+<body style="padding-bottom: 5rem;" onload="consumeJson('srv/estudiantes.php')
+   .then(respuesta => muestraObjeto(document, respuesta.body))
+   .catch(muestraError)">
+
+  <!-- Barra de navegación con Material Design -->
+  <md-top-app-bar>
+    <span class="md-title" id="headline">Listado de estudiantes</span>
+  </md-top-app-bar>
+
+  <!-- Contenido principal centrado -->
+  <main class="mdl-layout__content mdl-grid mdl-grid--center">
+
+    <!-- Botón flotante de Material Design -->
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--center">
+      <a href="agrega.html">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+          <span class="material-icons">person_add</span>
+        </button>
+      </a>
+    </div>
+
+    <!-- Lista de estudiantes con Material Design -->
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--center">
+      <ul id="lista" class="mdl-list">
+        <li class="mdl-list__item">
+          <progress max="100">Cargando…</progress>
+        </li>
+      </ul>
+    </div>
+    
+  </main>
+
+  <!-- Barra de navegación personalizada -->
+  <nav-bar></nav-bar>
+
+</body>
+
+</html>
