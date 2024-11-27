@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" class="light dark">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Modificar - Base de Datos</title>
+
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#fffbfe">
+  <link rel="icon" sizes="32x32" href="favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
+  <script src="ungap/custom-elements.js"></script>
+
+  <script type="module" src="js/configura.js"></script>
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/transicion_pestanas.css">
+  <link rel="expect" blocking="render" href="#navtabfixed">
+  <script type="module" src="lib/js/consumeJson.js"></script>
+  <script type="module" src="lib/js/submitForm.js"></script>
+  <script type="module" src="lib/js/muestraObjeto.js"></script>
+  <script type="module" src="lib/js/muestraError.js"></script>
+
+  <script>
+    // Obtiene los parámetros de la página.
+    const params = new URL(location.href).searchParams
+  </script>
+
+</head>
+
+<body style="padding-bottom: 5rem;" onload="if (params.size > 0) {
+   consumeJson('srv/estudiante.php?' + params)
+    .then(respuesta => muestraObjeto(forma, respuesta.body))
+    .catch(muestraError)
+  }">
+
+  <md-top-app-bar adicional="tab" headline="headline"
+    style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center;">
+      <button type="button" class="md-standard-icon-button" title="Cancelar"
+        onclick="window.location.href='index.html';" style="margin-right: 10px;">
+        <span class="material-symbols-outlined">cancel</span>
+      </button>
+      <h1 style="margin: 0;">Modificar estudiante</h1>
+    </div>
+
+    <button type="button" class="md-standard-icon-button" title="Agregar" slot="action"
+      onclick="document.querySelector('.md-filled-button[type=submit]').click()">
+      <span class="material-symbols-outlined">edit</span>
+    </button>
+    <button type="button" class="md-standard-icon-button" title="Agregar" slot="action" onclick="if (params.size > 0 && confirm('Confirma la eliminación')) {
+      consumeJson('srv/estudiante-elimina.php?' + params)
+          .then(() => location.href = 'index.html')
+          .catch(muestraError)
+      }">
+      <span class="material-symbols-outlined">delete</span>
+    </button>
+  </md-top-app-bar>
+
+  <h1 id="headline">Modificar estudiante</h1>
+  <nav-tab-fixed id="tab"></nav-tab-fixed>
+
+  <form id="forma" onsubmit="submitForm('srv/estudiante-modifica.php', event)
+    .then(respuesta => location.href = 'index.html')
+    .catch(muestraError)">
+    <main>
+      <input name="id" type="hidden">
+      <label class="md-filled-text-field">
+        <input id="nombre" name="nombre" required placeholder="Nombre*" value="Cargando&hellip;">
+        <span>Nombre *</span>
+        <small>Obligatorio</small>
+      </label>
+
+      <label class="md-filled-text-field">
+        <input id="cuatrimestre" name="cuatrimestre" required placeholder="Cuatrimestre*" value="Cargando&hellip;">
+        <span>Cuatrimestre *</span>
+        <small>Obligatorio</small>
+      </label>
+
+      <label class="md-filled-text-field">
+        <input id="carrera" name="carrera" required placeholder="Carrera*" value="Cargando&hellip;">
+        <span>Carrera *</span>
+        <small>Obligatorio</small>
+      </label>
+    </main>
+    <button class="md-filled-button" type="submit" style="display: none;">
+      Agregar
+    </button>
+  </form>
+
+</body>
+
+</html>
